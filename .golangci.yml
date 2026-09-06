@@ -1,7 +1,13 @@
-# goob v0.4.0's .golangci.yml migrated to the v2 schema with
-# `golangci-lint migrate` at v2.13.2, as the headlesslab default configuration
-# was. The reusable workflow prefers this file to the default because the
-# imported code is kept verbatim; tightening the rules is a change of its own.
+# goob v0.4.0's .golangci.yml under the v2 schema. golangci-lint v2.13.2
+# rejects upstream's file as is (run.skip-dirs-use-default is not in the v2
+# schema), so it was run through `golangci-lint migrate --skip-validation`,
+# which dropped that key and re-added the default directory exclusions
+# (third_party$, builtin$, examples$) upstream had switched off; they are
+# removed again here. gocyclo's min-complexity of 15 sat at the top level of
+# upstream's file, where v1 ignored it; it is set where it applies, as
+# upstream's sibling modules do. The reusable workflow prefers this file to
+# the headlesslab default because the imported code is kept verbatim;
+# tightening the rules is a change of its own.
 version: "2"
 linters:
   enable:
@@ -9,18 +15,13 @@ linters:
     - gocyclo
     - misspell
     - revive
+  settings:
+    gocyclo:
+      min-complexity: 15
   exclusions:
     generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
 formatters:
   enable:
     - gofmt
   exclusions:
     generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
