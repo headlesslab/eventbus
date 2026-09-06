@@ -1,3 +1,5 @@
+// Package eventbus is a lightweight observable: one publisher, many
+// subscribers, an unbounded buffer and a stable event order.
 package eventbus
 
 import (

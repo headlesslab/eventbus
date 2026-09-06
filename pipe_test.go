@@ -21,13 +21,13 @@ func TestPipeOrder(t *testing.T) {
 	write(2)
 	write(3)
 
-	if 1 != <-events {
+	if <-events != 1 {
 		t.Fatal()
 	}
-	if 2 != <-events {
+	if <-events != 2 {
 		t.Fatal()
 	}
-	if 3 != <-events {
+	if <-events != 3 {
 		t.Fatal()
 	}
 }

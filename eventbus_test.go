@@ -216,7 +216,8 @@ func BenchmarkPublish(b *testing.B) {
 
 	for i := 0; i < runtime.NumCPU(); i++ {
 		go func() {
-			for range s {
+			for e := range s {
+				_ = e // drain the subscription until the context is cancelled
 			}
 		}()
 	}
