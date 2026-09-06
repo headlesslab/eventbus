@@ -1,4 +1,4 @@
-package goob
+package eventbus
 
 import (
 	"context"

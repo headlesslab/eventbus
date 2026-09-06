@@ -1,4 +1,4 @@
-package goob_test
+package eventbus_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ysmood/goob"
+	"github.com/headlesslab/eventbus"
 )
 
 func TestPipeOrder(t *testing.T) {
@@ -15,7 +15,7 @@ func TestPipeOrder(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 
-	write, events := goob.NewPipe(ctx)
+	write, events := eventbus.NewPipe(ctx)
 
 	write(1)
 	write(2)
@@ -42,7 +42,7 @@ func TestPipe(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		write, events := goob.NewPipe(ctx)
+		write, events := eventbus.NewPipe(ctx)
 
 		wg := sync.WaitGroup{}
 		wg.Add(msgCount)
@@ -77,7 +77,7 @@ func TestPipeCancel(t *testing.T) {
 
 	for i := 0; i < count; i++ {
 		ctx, cancel := context.WithCancel(context.Background())
-		write, _ := goob.NewPipe(ctx)
+		write, _ := eventbus.NewPipe(ctx)
 		go write(1)
 		go cancel()
 	}
@@ -87,7 +87,7 @@ func TestPipeMonkey(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 
-	write, events := goob.NewPipe(ctx)
+	write, events := eventbus.NewPipe(ctx)
 
 	round := 30
 	count := 10000

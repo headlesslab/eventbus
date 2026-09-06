@@ -1,5 +1,5 @@
-module github.com/ysmood/goob
+module github.com/headlesslab/eventbus
 
-go 1.15
+go 1.21
 
-require github.com/ysmood/gotrace v0.6.0
+require github.com/headlesslab/leakcheck v0.1.0

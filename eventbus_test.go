@@ -1,4 +1,4 @@
-package goob_test
+package eventbus_test
 
 import (
 	"context"
@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ysmood/goob"
-	"github.com/ysmood/gotrace"
+	"github.com/headlesslab/eventbus"
+	"github.com/headlesslab/leakcheck"
 )
 
 func checkLeak(t *testing.T) {
-	gotrace.CheckLeak(t, 0)
+	leakcheck.CheckLeak(t, 0)
 }
 
 type null struct{}
@@ -32,7 +32,7 @@ func TestNew(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer t.Cleanup(cancel)
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	s := ob.Subscribe(ctx)
 	size := 1000
 
@@ -58,7 +58,7 @@ func TestNew(t *testing.T) {
 func TestCancel(t *testing.T) {
 	checkLeak(t)
 
-	ob := goob.New(context.Background())
+	ob := eventbus.New(context.Background())
 
 	ctx, cancel := context.WithCancel(context.Background())
 	ob.Subscribe(ctx)
@@ -72,7 +72,7 @@ func TestClosed(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	ob.Subscribe(ctx)
 	cancel()
 
@@ -91,7 +91,7 @@ func TestMultipleConsumers(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer t.Cleanup(cancel)
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	s1 := ob.Subscribe(ctx)
 	s2 := ob.Subscribe(ctx)
 	s3 := ob.Subscribe(ctx)
@@ -145,7 +145,7 @@ func TestSlowConsumer(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer t.Cleanup(cancel)
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	s := ob.Subscribe(ctx)
 
 	ob.Publish(1)
@@ -171,7 +171,7 @@ func TestMonkey(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		ob := goob.New(ctx)
+		ob := eventbus.New(ctx)
 		s := ob.Subscribe(ctx)
 
 		go func() {
@@ -211,7 +211,7 @@ func BenchmarkPublish(b *testing.B) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer b.Cleanup(cancel)
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	s := ob.Subscribe(ctx)
 
 	for i := 0; i < runtime.NumCPU(); i++ {
@@ -234,7 +234,7 @@ func BenchmarkConsume(b *testing.B) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer b.Cleanup(cancel)
 
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 	s := ob.Subscribe(ctx)
 
 	for i := 0; i < b.N; i++ {

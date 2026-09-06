@@ -1,0 +1,8 @@
+eventbus
+Copyright 2026 headlesslab
+
+This product is derived from goob (https://github.com/ysmood/goob),
+Copyright 2019 Yad Smood, licensed under the MIT License (see LICENSE).
+eventbus's initial code is a snapshot of goob v0.4.0, tag v0.4.0, commit
+8c75c65e796d1537f826b45753f994617235f148 (2022-04-09), imported without
+git history. Later changes are eventbus's own.

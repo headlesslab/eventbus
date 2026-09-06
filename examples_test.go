@@ -1,11 +1,11 @@
-package goob_test
+package eventbus_test
 
 import (
 	"context"
 	"fmt"
 	"time"
 
-	"github.com/ysmood/goob"
+	"github.com/headlesslab/eventbus"
 )
 
 func Example_basic() {
@@ -13,7 +13,7 @@ func Example_basic() {
 	defer cancel()
 
 	// create an observable instance
-	ob := goob.New(ctx)
+	ob := eventbus.New(ctx)
 
 	events := ob.Subscribe(context.TODO())
 
